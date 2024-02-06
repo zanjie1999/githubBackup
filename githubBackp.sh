@@ -13,11 +13,24 @@ localDir=$(cd $(dirname $0); pwd)
 
 echo "$localDir"
 cd "$localDir"
-curl -L \
-  -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer $ghToken" \
-  -H "X-GitHub-Api-Version: 2022-11-28" \
-  https://api.github.com/user/repos  > githubBackup.json
+echo > githubBackup.json
+page=1
+while :; do
+    echo "curl page $page"
+    out="`curl -L -H 'Accept: application/vnd.github+json' -H "Authorization: Bearer $ghToken" -H 'X-GitHub-Api-Version: 2022-11-28' "https://api.github.com/user/repos?per_page=100&page=$page"`"
+    if [ $? -ne 0 ]; then
+        echo "connect to github error"
+        exit 1
+    fi
+    echo "$out" | grep full_name > /dev/null
+    if [ $? -eq 0 ]; then
+        echo "$out" >> githubBackup.json
+        page=$(($page + 1))
+    else
+        echo "curl over"
+        break
+    fi
+done
 
 repos="`cat githubBackup.json | grep full_name | awk '{print substr($2, 2, length($2)-3)}'`"
 for repo in $repos; do
