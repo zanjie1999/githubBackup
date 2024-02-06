@@ -11,6 +11,21 @@ ghToken='ghp_jewrfiodsfnewiohfhaoenf'
 # localDir='.\'
 localDir=$(cd $(dirname $0); pwd)
 
+# 忽略列表
+ignores=(
+    'zanjie1999/menet'
+    'zanjie1999/lede-vpod'
+    'zanjie1999/openwrt-vpod'
+    'zanjie1999/lede220311'
+    'zanjie1999/lean221118'
+    'zanjie1999/me-wg'
+    'zanjie1999/JS-OTP'
+    'zanjie1999/SMSBoom'
+    'zanjie1999/android_hardware_imx'
+    'zanjie1999/VIP'
+    'zanjie1999/ninja'
+)
+
 echo "$localDir"
 cd "$localDir"
 echo > githubBackup.json
@@ -34,7 +49,10 @@ done
 
 repos="`cat githubBackup.json | grep full_name | awk '{print substr($2, 2, length($2)-3)}'`"
 for repo in $repos; do
-    if [ -d "$repo" ]; then
+    if [ "${ignores[@]/$repo/}" != "${ignores[@]}" ]; then
+        echo
+        echo "ignore '$repo'"
+    else if [ -d "$repo" ]; then
         echo
         echo "pull '$repo'"
         cd "$repo"
