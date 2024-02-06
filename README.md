@@ -33,6 +33,13 @@ fi
 ```
 sudo opkg install git
 ```
+生成一下ssh key
+```
+ssh-keygen -t rsa
+cat ~/.ssh/id_rsa.pub
+```
+输出的这一长串给加到 https://github.com/settings/keys 里去  
+然后去 https://github.com/settings/tokens 创建一个token 需要有repo权限（gph_开头的），填到脚本里的ghToken中  
 在脚本右键属性复制一下位置  
 新建一个定时运行的计划任务然后贴进去就行  
 每当这个计划任务运行，就会增量同步一次你的所有仓库（包括私有仓库，以及你有权限的别人的仓库）
