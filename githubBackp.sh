@@ -22,11 +22,13 @@ curl -L \
 repos="`cat githubBackup.json | grep full_name | awk '{print substr($2, 2, length($2)-3)}'`"
 for repo in $repos; do
     if [ -d "$repo" ]; then
-        echo "\npull '$repo'"
+        echo
+        echo "pull '$repo'"
         cd "$repo"
         git pull
     else
-        echo "\nclone '$repo'"
+        echo
+        echo "clone '$repo'"
         git clone "git@github.com:$repo.git" "$repo"
     fi
     cd $localDir
