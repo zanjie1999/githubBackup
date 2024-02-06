@@ -49,10 +49,10 @@ done
 
 repos="`cat githubBackup.json | grep full_name | awk '{print substr($2, 2, length($2)-3)}'`"
 for repo in $repos; do
-    if [ "${ignores[@]/$repo/}" != "${ignores[@]}" ]; then
+    if [[ "${ignores[@]/$repo/}" != "${ignores[@]}" ]]; then
         echo
         echo "ignore '$repo'"
-    else if [ -d "$repo" ]; then
+    elif [ -d "$repo" ]; then
         echo
         echo "pull '$repo'"
         cd "$repo"
