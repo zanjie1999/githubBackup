@@ -7,10 +7,12 @@
 # 如果需要备份私有仓库，你还需要在 https://github.com/settings/keys 配置本机ssh key
 ghToken='ghp_jewrfiodsfnewiohfhaoenf'
 
-# 保存目录
-localDir='./'
+# 保存目录 默认脚本所在目录
+# localDir='.\'
+localDir=$(cd $(dirname $0); pwd)
 
-cd “$localDir”
+echo "$localDir"
+cd "$localDir"
 curl -L \
   -H "Accept: application/vnd.github+json" \
   -H "Authorization: Bearer $ghToken" \
