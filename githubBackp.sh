@@ -56,7 +56,8 @@ for repo in $repos; do
         echo
         echo "pull '$repo'"
         cd "$repo"
-        git pull
+        git fetch --all --prune
+        git pull --ff-only
     else
         echo
         echo "clone '$repo'"
